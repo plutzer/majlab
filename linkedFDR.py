@@ -65,7 +65,7 @@ def generate_linked_groups(groupedIDs):
         for protein in list(groupedIDs)[group_index].split(';'):
             
             # also in is a list of indexes of protein groups that share a protein with this group.
-            also_in  = list(np.where([protein in group for group in groupedIDs])[0])
+            also_in  = list(np.where([protein in group.split(';') for group in groupedIDs])[0])
             
             # Iterate through also_in and update the adjacency matrix
             for index in also_in:
