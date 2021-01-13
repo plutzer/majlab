@@ -26,8 +26,8 @@ def linked_FDRs(pathslist,func = np.max):
 	# Get a score for each linked group. This is a list with indexes corresponing to linked groups.
 	linked_scores = [func(list(combined_df.iloc[indexes]['Score'])) for indexes in linked_groups]
 
-	# Denote whether each linked group is a decoy. This is a boolean list, same indexes. Use Reverse column
-	linked_decoys = ['REV_' in ''.join(list(combined_df.iloc[indexes]['Protein IDs'])) for indexes in linked_groups]
+	# Denote whether each linked group is a decoy. This is a boolean list, same indexes. Use Reverse column...
+	linked_decoys = ['+' in ''.join(str(list(combined_df.iloc[indexes]['Reverse']))) for indexes in linked_groups]
 
 	# Make a dataframe out of the linked columns
 	linkages_info = pd.DataFrame(zip(linked_groups,linked_scores,linked_decoys),columns = ['groups','scores','decoys'])
@@ -38,7 +38,7 @@ def linked_FDRs(pathslist,func = np.max):
 
 	for i in range(len(linked_groups)): #Iterating over the indexes of the linked groups list itself
 	    # subset linkages_info to only elements that have a score less than than the current linked_group
-	    subset = linkages_info[linkages_info['scores'] > linked_scores[i]]
+	    subset = linkages_info[linkages_info['scores'] >= linked_scores[i]]
 	    if len(subset) < 1:
 	    	FDR = 0
 	    else:
